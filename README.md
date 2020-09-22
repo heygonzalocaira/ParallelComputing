@@ -6,7 +6,7 @@ Implementation of parallel and distributed computing's laboratories
 
 ## List of contents
 
-* [LAB 1]()
+* [LAB 1](https://github.com/madscientist98/ParallelComputing/tree/master/src/LAB%201%20%20PRUEBAS%20CON%20LA%20MEMORIA%20CACH%C3%89)
 * [LAB 2]()
 
 
