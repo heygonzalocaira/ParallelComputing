@@ -14,11 +14,11 @@ int main(){
 
     for (int h = 0; h < MAX; h++){
           for (int w = 0; w < MAX; w++){
-                A[h][w] = 1+rand()%(1000-1);
+                A[h][w] = 1+rand()%(100-1);
           }
     }
     for (int w = 0; w < MAX; w++){
-        x[w] = 1+rand()%(1000-1);
+        x[w] = 1+rand()%(100-1);
     }
 
     start = clock();
