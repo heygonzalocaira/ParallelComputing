@@ -19,16 +19,24 @@ int* random1dArray(unsigned width){
     }
     return array1D;
 }
-
+/*
 int main(){
     int** my2DArray = random2dArray(100, 100);
     printf("Array sized [%i,%i] created.\n\n", 100,100);
-    for (int h = 0; h < 100; h++)
-      {
-            for (int w = 0; w < 100; w++)
-            {
-                  printf("%i,", my2DArray[h][w]);
-            }
-            printf("\n");
+    for (int h = 0; h < 100; h++){
+      for (int w = 0; w < 100; w++){
+            printf("%i,", my2DArray[h][w]);
       }
+       printf("\n");
+      }
+            // important: clean up memory
+      printf("\n");
+      printf("Cleaning up memory...\n");
+      for ( int h = 0; h < 100; h++){
+        delete [] my2DArray[h];
+      }
+      delete [] my2DArray;
+      my2DArray = 0;
+      printf("Ready.\n");
 }
+*/
