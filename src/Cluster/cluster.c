@@ -1,6 +1,5 @@
 #include <stdio.h> /* printf and BUFSIZ defined there */
-#include <stdlib.h> /* exit defined there */
-#include <bits/stdc++.h>
+#include <stdlib.h>
 #include <mpi.h> /* all MPI-2 functions defined there */
 
 int main( int argc, char *argv[] ) {
@@ -14,6 +13,4 @@ int main( int argc, char *argv[] ) {
         printf("%s: hello world from process %d of %d\n", name, rank, size);
 
         MPI_Finalize();
-
-        exit(0);
 }
