@@ -2,7 +2,7 @@
 */
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "timer.h"
 void Get_dims(int* m_p, int* n_p);
 void Read_matrix(char prompt[], double A[], int m, int n);
 void Read_vector(char prompt [], double x[], int n);
@@ -114,12 +114,14 @@ void Mat_vect_mult(
                    int     m    /* in  */, 
                    int     n    /* in  */) {
    int i, j;
-
+   GET_TIME(start);
    for (i = 0; i < m; i++) {
       y[i] = 0.0;
       for (j = 0; j < n; j++)
          y[i] += A[i*n+j]*x[j];
    }
+   GET_TIME(finish);
+   printf("Elapsed time = %e seconds\n", finish - start);
 } 
 /*
  * Compile:  gcc -g -Wall -o mat mat_mult.c
