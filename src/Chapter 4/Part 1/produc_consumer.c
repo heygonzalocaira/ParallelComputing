@@ -2,7 +2,7 @@
 #include <semaphore.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "timer.h"
 
 #define MaxItems 5 
 #define BufferSize 5 
@@ -39,13 +39,13 @@ void *consumer(void *cno)
 
 int main()
 {   
-
+    double start, finish, elapsed;
     pthread_t pro[3],con[3];
     sem_init(&empty,0,BufferSize);
     sem_init(&full,0,0);
 
     int a[3] = {1,2,3,}; //Just used for numbering the producer and consumer
-
+     GET_TIME(start);
     for(int i = 0; i < 3; i++) {
         pthread_create(&pro[i], NULL, (void *)producer, (void *)&a[i]);
     }
@@ -59,10 +59,12 @@ int main()
     for(int i = 0; i < 3; i++) {
         pthread_join(con[i], NULL);
     }
-
+    GET_TIME(finish);
+    elapsed = finish - start;
+    printf("   El tiempo es = %e secondos\n", elapsed);
     sem_destroy(&empty);
     sem_destroy(&full);
-
+    
     return 0;
     
 }
