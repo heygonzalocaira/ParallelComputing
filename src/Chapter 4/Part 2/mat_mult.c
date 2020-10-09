@@ -36,7 +36,7 @@ int main(void) {
 
    Mat_vect_mult(A, x, y, m, n);
 
-   Print_vector("y", y, m);
+   //Print_vector("y", y, m);
 
    free(A);
    free(x);
@@ -79,7 +79,7 @@ void Read_vector(
 
    printf("Enter the vector %s\n", prompt);
    for (i = 0; i < n; i++)
-      x[i] = rand()%1+50;
+      x[i] = rand()%50+100;
       //scanf("%lf", &x[i]);
 } 
 void Print_matrix(
@@ -114,6 +114,7 @@ void Mat_vect_mult(
                    int     m    /* in  */, 
                    int     n    /* in  */) {
    int i, j;
+   double start, finish;
    GET_TIME(start);
    for (i = 0; i < m; i++) {
       y[i] = 0.0;
