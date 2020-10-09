@@ -117,14 +117,18 @@ void Usage(char* prog_name) {
 } 
 void Get_input(int* inserts_in_main_p) {
 
-   printf("How many keys should be inserted in the main thread?\n");
-   scanf("%d", inserts_in_main_p);
-   printf("How many total ops should the threads execute?\n");
-   scanf("%d", &total_ops);
-   printf("Percent of ops that should be searches? (between 0 and 1)\n");
-   scanf("%lf", &search_percent);
-   printf("Percent of ops that should be inserts? (between 0 and 1)\n");
-   scanf("%lf", &insert_percent);
+   //printf("How many keys should be inserted in the main thread?\n");
+   //scanf("%d", inserts_in_main_p);
+   //printf("How many total ops should be executed?\n");
+   //scanf("%d", &total_ops);
+   //printf("Percent of ops that should be searches? (between 0 and 1)\n");
+   //scanf("%lf", &search_percent);
+   //printf("Percent of ops that should be inserts? (between 0 and 1)\n");
+   //scanf("%lf", &insert_percent);
+   inserts_in_main_p = 1000;
+   total_ops = 10000;
+   search_percent = 80.0;
+   insert_percent=10.0;
    delete_percent = 1.0 - (search_percent + insert_percent);
 } 
 void Init_ptrs(struct list_node_s** curr_pp, struct list_node_s** pred_pp) {

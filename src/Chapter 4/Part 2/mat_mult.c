@@ -68,7 +68,8 @@ void Read_matrix(
    printf("Enter the matrix %s\n", prompt);
    for (i = 0; i < m; i++)
       for (j = 0; j < n; j++)
-         scanf("%lf", &A[i*n+j]);
+         //scanf("%lf", &A[i*n+j]);
+         A[i*n+j]=rand()%1+50;
 } 
 void Read_vector(
                  char    prompt[]  /* in  */, 
@@ -78,7 +79,8 @@ void Read_vector(
 
    printf("Enter the vector %s\n", prompt);
    for (i = 0; i < n; i++)
-      scanf("%lf", &x[i]);
+      x[i] = rand()%1+50;
+      //scanf("%lf", &x[i]);
 } 
 void Print_matrix(
                   char    title[]  /* in */,

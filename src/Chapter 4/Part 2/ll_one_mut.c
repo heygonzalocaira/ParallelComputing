@@ -105,14 +105,18 @@ void Usage(char* prog_name) {
 }  
 void Get_input(int* inserts_in_main_p) {
 
-   printf("How many keys should be inserted in the main thread?\n");
-   scanf("%d", inserts_in_main_p);
-   printf("How many total ops should be executed?\n");
-   scanf("%d", &total_ops);
-   printf("Percent of ops that should be searches? (between 0 and 1)\n");
-   scanf("%lf", &search_percent);
-   printf("Percent of ops that should be inserts? (between 0 and 1)\n");
-   scanf("%lf", &insert_percent);
+   //printf("How many keys should be inserted in the main thread?\n");
+   //scanf("%d", inserts_in_main_p);
+   //printf("How many total ops should be executed?\n");
+   //scanf("%d", &total_ops);
+   //printf("Percent of ops that should be searches? (between 0 and 1)\n");
+   //scanf("%lf", &search_percent);
+   //printf("Percent of ops that should be inserts? (between 0 and 1)\n");
+   //scanf("%lf", &insert_percent);
+   inserts_in_main_p = 1000;
+   total_ops = 10000;
+   search_percent = 80.0;
+   insert_percent=10.0;
    delete_percent = 1.0 - (search_percent + insert_percent);
 }  
 int Insert(int value) {
@@ -266,8 +270,7 @@ void* Thread_work(void* rank) {
    return NULL;
 }  
 /*
- * Compile:  gcc -g -Wall -o ll_one_mut ll_one_mut.c 
- *              my_rand.c -lpthread
+ * Compile:  gcc -g -Wall -o ll_one_mut ll_one_mut.c my_rand.c -lpthread
  *           needs timer.h and my_rand.h
  *
  * Usage:    ./ll_one_mut <thread_count>
