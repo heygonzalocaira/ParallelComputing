@@ -56,9 +56,6 @@ int main( int argc, char **argv )
 //////////////////////////////   /SERIAL //////////////////////////////////////
 
   mutex_main();
-  sem_main();
-  busy_wait_main();
-
   return 0;
 }
 
@@ -122,12 +119,7 @@ void* busy_wait_trapezoid(void* rank)
   return NULL;
 }
 
-// This function calculates the integral using the trapezoidal rule in
-// parallel. The calculation used here is the same as in serial_trapezoid()
-// except (f(a)+f(b))/2.0 needed to be special cased -> it's only added once.
-// A shared mutex is used to address the problems that could occur from race
-// conditions where two or more threads are trying to add to the global
-// sum at once.
+
 void* mutex_trapezoid(void* rank)
 { 
   long thread_rank = (long)rank;
@@ -163,12 +155,7 @@ void* mutex_trapezoid(void* rank)
  
 }
 
-// This function calculates the integral using the trapezoidal rule in
-// parallel. The calculation used here is the same as in serial_trapezoid()
-// except (f(a)+f(b))/2.0 needed to be special cased -> it's only added once.
-// A semaphore is used to address the problems that could occur from race
-// conditions where two or more threads are trying to add to the global
-// sum at once.
+
 void* sem_trapezoid(void *rank)
 {
   long thread_rank = (long)rank;
@@ -176,19 +163,16 @@ void* sem_trapezoid(void *rank)
   long long i;
   int special_case = (int)thread_rank;
 
-  // allocate a chunk of work to the thread
+
   long long my_first_i = BLOCK_LOW(thread_rank, thread_count, n);
   long long my_last_i = BLOCK_HIGH(thread_rank, thread_count, n);
 
-  // let thread with rank 1 add (f(a)+f(b))/2.0 to it's sum. This is only
-  // done once for trapezoidal rule calculation & thread that does it is
-  // should be 1st or 2nd in case code is only run on 2 cores.
+
   if( special_case == 1)
   {
     local_sum += (f(a)+f(b))/2.0;
   }
 
-  // Karlsson's trapezoid code
   for( i= my_first_i; i <= my_last_i; i++)
   {
     local_sum += f(a+(i*h));
@@ -203,12 +187,6 @@ void* sem_trapezoid(void *rank)
   return NULL;
 }
 
-
-// This function creates the thread_count=8 (global at top) pthreads
-// and initializes a mutex that will be used for the global sum in the
-// mutex_trapezoid() function. The threads are joined after finishing
-// execution, mem assoc. w/ threads is freed, and mutex destroyed.
-// The integral estimation is printed as well.
 void mutex_main()
 {
   pthread_t* thread_handles;
@@ -237,69 +215,6 @@ void mutex_main()
     a, b, GLOBAL_MUTEX_SUM);  
 }
 
-// This function creates the thread_count=8 (global at top) pthreads
-// and initializes a semaphore that will be used for the global sum in the
-// sem_trapezoid() function. The threads are joined after finishing
-// execution, mem assoc. w/ threads is freed, and semaphore destroyed.
-// The integral estimation is printed as well.
-void sem_main()
-{
-    pthread_t* thread_handles;
-
-    // create thread handles and initialize semaphore
-  sem_init(&semaphore, 0, 1);
-  thread_handles = malloc( thread_count * sizeof(pthread_t));
-
-  // create the pthreads on semaphore trapezoid function
-  long thread;
-  for( thread=0; thread < thread_count; thread++)
-    pthread_create( &thread_handles[thread], NULL, sem_trapezoid, 
-      (void*) thread);
-
-  // join all the thread handles
-  for( thread=0; thread < thread_count; thread++)
-    pthread_join( thread_handles[thread], NULL);
-
-  // free thread handles and semaphore
-  free(thread_handles);
-  sem_destroy(&semaphore);
-
-  printf("SEMAPHORE\n");
-  printf("With n = %ld trapezoids, our estimate\n", n);
-  printf("of the integral from %f to %f = %.15f\n\n",
-    a, b, GLOBAL_SEM_SUM);  
-}
-
-// This function creates the thread_count=8 (global at top) pthreads.
-// The threads are joined after finishing execution and mem assoc. w/ threads
-// is freed. The integral estimation is printed as well.
-void busy_wait_main()
-{
-    pthread_t* thread_handles;
-
-    // create thread handles 
-  thread_handles = malloc( thread_count * sizeof(pthread_t));
-
-  // create the pthreads on busy_wait trapezoid function
-  long thread;
-  for( thread=0; thread < thread_count; thread++)
-    pthread_create( &thread_handles[thread], NULL, busy_wait_trapezoid, 
-      (void*) thread);
-
-  // join all the thread handles
-  for( thread=0; thread < thread_count; thread++)
-    pthread_join( thread_handles[thread], NULL);
-
-  free(thread_handles);
-
-  printf("BUSY WAIT\n");
-  printf("With n = %ld trapezoids, our estimate\n", n);
-  printf("of the integral from %f to %f = %.15f\n\n",
-    a, b, GLOBAL_BUSY_SUM);  
-}
-
-// This is the function that is called in the serial and parallel trapezoidal
-// functions.
 double f(double x)
 {
   double return_val = x*x;
