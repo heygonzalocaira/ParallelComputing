@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <omp.h>
 #include "queuelock.h"
+// gcc -g -Wall -fopenmp -o test omp_lockmessage.c
+// ./test <n threads> <n>
 
 void Send_msg(struct queue* msg_queue[],int my_rank);
 void Try_receive(struct queue* q,int my_rank);
